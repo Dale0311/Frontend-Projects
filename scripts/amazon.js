@@ -91,6 +91,8 @@ addToCartBtns.forEach((btn) => {
       totalQuantity += product.quantity;
     });
 
+    console.log(cart);
+
     document.querySelector('.cart-quantity').innerHTML = totalQuantity;
   });
 });
