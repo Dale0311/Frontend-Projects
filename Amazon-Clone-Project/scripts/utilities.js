@@ -12,3 +12,7 @@ export function toggleAddedToCartElement(id) {
     addedToCartNotifElement.classList.remove('show-element');
   }, 500);
 }
+
+export function formatCurrency(priceCents) {
+  return (priceCents / 100).toFixed(2);
+}
