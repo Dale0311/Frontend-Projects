@@ -1,3 +1,7 @@
+import { addToCart, updatedCartItems } from '../data/cart.js';
+import { products } from '../data/products.js';
+import { toggleAddedToCartElement } from './utilities.js';
+
 const productSectionElement = document.querySelector('.products-grid');
 function generateProductCards() {
   return products.map((product) => {
@@ -28,7 +32,7 @@ function generateProductCards() {
           <div class="product-price">$${price}</div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="selected-quantity-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -44,7 +48,7 @@ function generateProductCards() {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart added-${product.id}">
             <img src="images/icons/checkmark.png" />
             Added
           </div>
@@ -58,25 +62,16 @@ productSectionElement.innerHTML = toRenderProduct;
 
 const addToCartBtns = document.querySelectorAll('.add-to-cart-button');
 
+// modules na me
 addToCartBtns.forEach((btn) => {
   btn.addEventListener('click', () => {
-    const newItem = { id: btn.dataset.productId, quantity: 1 };
-    let matchItem;
-    cart.forEach((item) => {
-      if (item.id === newItem.id) {
-        matchItem = item;
-      }
-    });
+    const id = btn.dataset.productId;
+    const quantity = +document.querySelector(`.selected-quantity-${id}`).value;
 
-    if (matchItem) {
-      matchItem.quantity += 1;
-    } else {
-      cart.push(newItem);
-    }
+    toggleAddedToCartElement(id); //show added to cart element when click for 500 ms
 
-    let cartItems = 0;
-    cart.forEach((item) => (cartItems += item.quantity));
-
+    addToCart({ id, quantity });
+    const cartItems = updatedCartItems();
     document.querySelector('.cart-quantity').innerHTML = cartItems;
   });
 });
