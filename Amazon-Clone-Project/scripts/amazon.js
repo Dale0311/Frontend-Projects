@@ -62,7 +62,6 @@ productSectionElement.innerHTML = toRenderProduct;
 
 const addToCartBtns = document.querySelectorAll('.add-to-cart-button');
 
-// modules na me
 addToCartBtns.forEach((btn) => {
   btn.addEventListener('click', () => {
     const id = btn.dataset.productId;
