@@ -5,11 +5,12 @@ import { toggleAddedToCartElement } from './utilities.js';
 const productSectionElement = document.querySelector('.products-grid');
 const currentCartCount = document.querySelector('.cart-quantity');
 function generateProductCards() {
-  return products.map((product) => {
+  let toRender = '';
+  products.forEach((product) => {
     const starRating = (product.rating.stars * 100) / 10;
     const price = product.priceCents / 100;
 
-    return `        
+    toRender += `        
     <div class="product-container">
           <div class="product-image-container">
             <img
@@ -57,6 +58,8 @@ function generateProductCards() {
           <button class="add-to-cart-button button-primary" data-product-id="${product.id}">Add to Cart</button>
         </div>`;
   });
+
+  return toRender;
 }
 const toRenderProduct = generateProductCards();
 productSectionElement.innerHTML = toRenderProduct;
