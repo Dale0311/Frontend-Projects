@@ -16,3 +16,11 @@ export function toggleAddedToCartElement(id) {
 export function formatCurrency(priceCents) {
   return (priceCents / 100).toFixed(2);
 }
+
+export function setCartToLocalStorage(cart) {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+export function getCartFromLocalStorage() {
+  return JSON.parse(localStorage.getItem('cart')) || [];
+}

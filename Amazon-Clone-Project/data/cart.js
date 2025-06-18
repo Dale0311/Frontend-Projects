@@ -1,13 +1,9 @@
-export let cart = [
-  {
-    id: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-    quantity: 1,
-  },
-  {
-    id: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-    quantity: 1,
-  },
-];
+import {
+  getCartFromLocalStorage,
+  setCartToLocalStorage,
+} from '../scripts/utilities.js';
+
+export let cart = getCartFromLocalStorage();
 
 export const addToCart = (newItem) => {
   let matchItem;
@@ -23,6 +19,8 @@ export const addToCart = (newItem) => {
   } else {
     cart.push(newItem);
   }
+
+  setCartToLocalStorage(cart);
 };
 
 export const updatedCartItems = () => {
@@ -34,4 +32,6 @@ export const updatedCartItems = () => {
 export const deleteItemInCart = (id) => {
   const updatedCart = cart.filter((item) => item.id !== id);
   cart = updatedCart;
+  setCartToLocalStorage(cart);
 };
+

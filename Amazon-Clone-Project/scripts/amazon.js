@@ -3,6 +3,7 @@ import { products } from '../data/products.js';
 import { toggleAddedToCartElement } from './utilities.js';
 
 const productSectionElement = document.querySelector('.products-grid');
+const currentCartCount = document.querySelector('.cart-quantity');
 function generateProductCards() {
   return products.map((product) => {
     const starRating = (product.rating.stars * 100) / 10;
@@ -62,6 +63,9 @@ productSectionElement.innerHTML = toRenderProduct;
 
 const addToCartBtns = document.querySelectorAll('.add-to-cart-button');
 
+const cartItems = updatedCartItems();
+currentCartCount.innerHTML = cartItems;
+
 addToCartBtns.forEach((btn) => {
   btn.addEventListener('click', () => {
     const id = btn.dataset.productId;
@@ -71,6 +75,6 @@ addToCartBtns.forEach((btn) => {
 
     addToCart({ id, quantity });
     const cartItems = updatedCartItems();
-    document.querySelector('.cart-quantity').innerHTML = cartItems;
+    currentCartCount.innerHTML = cartItems;
   });
 });
