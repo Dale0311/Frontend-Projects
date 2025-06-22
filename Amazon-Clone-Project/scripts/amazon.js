@@ -1,14 +1,15 @@
 import { addToCart, updatedCartItems } from '../data/cart.js';
 import { products } from '../data/products.js';
-import { toggleAddedToCartElement } from './utilities.js';
+import { formatCurrency, toggleAddedToCartElement } from './utilities.js';
 
 const productSectionElement = document.querySelector('.products-grid');
 const currentCartCount = document.querySelector('.cart-quantity');
+
 function generateProductCards() {
   let toRender = '';
   products.forEach((product) => {
     const starRating = (product.rating.stars * 100) / 10;
-    const price = product.priceCents / 100;
+    const price = formatCurrency(product.priceCents);
 
     toRender += `        
     <div class="product-container">

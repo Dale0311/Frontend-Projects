@@ -470,3 +470,10 @@ export const products = [
     keywords: ['sweaters', 'hoodies', 'apparel', 'mens'],
   },
 ];
+
+export const getItemFromProducts = (id) => {
+  if (id) {
+    console.log('im executed');
+    return products.find((item) => item.id === id);
+  }
+};

@@ -1,24 +1,29 @@
-import { cart, deleteItemInCart, updatedCartItems } from '../data/cart.js';
+import {
+  cart,
+  deleteItemInCart,
+  getTotalAmountInCart,
+  updatedCartItems,
+} from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utilities.js';
 
+const itemsInCart = [];
+const totalAmountInCart = getTotalAmountInCart();
+cart.forEach((item) => {
+  const existProduct = products.find((product) => product.id === item.id);
+  if (existProduct) {
+    const { name, id, image, priceCents } = existProduct;
+    itemsInCart.push({
+      name,
+      id,
+      image,
+      priceCents,
+      quantity: item.quantity,
+    });
+  }
+});
+
 function generateCheckoutCards() {
-  const itemsInCart = [];
-
-  cart.forEach((item) => {
-    const existProduct = products.find((product) => product.id === item.id);
-    if (existProduct) {
-      const { name, id, image, priceCents } = existProduct;
-      itemsInCart.push({
-        name,
-        id,
-        image,
-        priceCents,
-        quantity: item.quantity,
-      });
-    }
-  });
-
   let toRender = '';
   itemsInCart.forEach((item) => {
     toRender += `
@@ -169,31 +174,40 @@ function generateCheckoutCards() {
     //     </div>
     // `;
   });
-  console.log(toRender);
 
   return toRender;
 }
 
 // elements
-const checkoutCartItemsElement = document.querySelector(
+const checkoutCartItemsElements = document.querySelectorAll(
   '.checkout-current-items-count'
 );
+const totalItemsAmountElement = document.querySelector('.total-items-in-cart');
 
 const toRenderCards = generateCheckoutCards();
 const currentCartCount = updatedCartItems();
 
+// rendering
 document.querySelector('.order-summary').innerHTML = toRenderCards;
-checkoutCartItemsElement.innerHTML = currentCartCount;
+checkoutCartItemsElements.forEach((e) => (e.innerHTML = currentCartCount));
+totalItemsAmountElement.innerHTML = `$${totalAmountInCart}`;
 
 const deleteBtns = document.querySelectorAll('.delete-quantity-link');
 
 deleteBtns.forEach((btn) =>
   btn.addEventListener('click', () => {
+    // reference items, elements, data
     const id = btn.dataset.deleteId;
-    deleteItemInCart(id);
     const toDeletElement = document.querySelector(`.cart-item-${id}`);
     const currentCartCount = updatedCartItems();
-    checkoutCartItemsElement.innerHTML = currentCartCount;
+
+    // update data
+    deleteItemInCart(id);
+    const updatedTotalAmountInCart = getTotalAmountInCart();
+
+    // update UI
+    totalItemsAmountElement.innerHTML = `$${updatedTotalAmountInCart}`;
+    checkoutCartItemsElements.forEach((e) => (e.innerHTML = currentCartCount));
     toDeletElement.remove();
   })
 );
