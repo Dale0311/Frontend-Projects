@@ -473,7 +473,6 @@ export const products = [
 
 export const getItemFromProducts = (id) => {
   if (id) {
-    console.log('im executed');
     return products.find((item) => item.id === id);
   }
 };
